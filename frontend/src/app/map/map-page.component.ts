@@ -20,7 +20,7 @@ export class MapPageComponent implements OnInit {
   ngOnInit(): void {
     forkJoin([this.api.vehicleLocations(), this.api.pileLocations()]).subscribe(([vehicles, piles]) => {
       this.vehicleCount = vehicles.length;
-      this.pileCount = piles.filter(p => p.status === PileStatus.IDLE).length;
+      this.pileCount = piles.length;
       this.markers = [
         ...vehicles.map(v => ({ lng: Number(v.lng), lat: Number(v.lat), label: v.plate_number, status: v.status, kind: 'vehicle' as const })),
         ...piles.map(p => ({ lng: Number(p.lng), lat: Number(p.lat), label: p.code, status: p.status, kind: 'pile' as const }))

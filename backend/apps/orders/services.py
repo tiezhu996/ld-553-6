@@ -25,7 +25,7 @@ class OrderService:
         if vehicle_id:
             order.vehicle_id = vehicle_id
         if status == OrderStatus.COMPLETED and not order.fare:
-            order.fare = Decimal(order.duration) * Decimal("2.40")
+            order.fare = Decimal(order.distance) * Decimal("2.40")
         order.save()
         return order
 

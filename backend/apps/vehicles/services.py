@@ -20,7 +20,7 @@ class VehicleService:
 
     @staticmethod
     def mark_maintenance(vehicle: Vehicle) -> Vehicle:
-        if vehicle.status == VehicleStatus.PENDING:
+        if vehicle.status != VehicleStatus.OPERATING:
             raise BusinessException("只有运营中车辆可以进入维修")
         vehicle.status = VehicleStatus.MAINTENANCE
         vehicle.save(update_fields=["status", "updated_at"])

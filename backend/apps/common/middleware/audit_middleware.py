@@ -47,4 +47,7 @@ class AuditLogMiddleware:
 
     def _entity_id(self, path: str) -> str:
         parts = [p for p in path.split("/") if p]
-        return parts[3] if len(parts) > 3 and parts[3].isdigit() else ""
+        for part in parts[2:]:
+            if part.isdigit():
+                return part
+        return ""

@@ -24,7 +24,7 @@ class ChargingPileViewSet(viewsets.ModelViewSet):
 
     @decorators.action(detail=False, methods=["get"], url_path="locations")
     def locations(self, request):
-        return response.Response(ChargingPileSerializer(self.get_queryset().filter(status=PileStatus.IDLE), many=True).data)
+        return response.Response(ChargingPileSerializer(self.get_queryset(), many=True).data)
 
     @decorators.action(detail=True, methods=["patch"], url_path="status")
     def status_action(self, request, pk=None):
