@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { HasRoleDirective } from './directives/has-role.directive';
 import { MapContainerComponent } from './components/map-container/map-container.component';
 import { StatsCardComponent } from './components/stats-card/stats-card.component';
@@ -17,7 +18,7 @@ import { StatusTranslatePipe } from './pipes/status-translate.pipe';
 
 @NgModule({
   declarations: [HasRoleDirective, MapContainerComponent, StatsCardComponent, StatusTagComponent, StatusTranslatePipe],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTableModule],
-  exports: [CommonModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTableModule, HasRoleDirective, MapContainerComponent, StatsCardComponent, StatusTagComponent, StatusTranslatePipe]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTableModule, MatTooltipModule],
+  exports: [CommonModule, FormsModule, ReactiveFormsModule, MatButtonModule, MatCardModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatSnackBarModule, MatTableModule, MatTooltipModule, HasRoleDirective, MapContainerComponent, StatsCardComponent, StatusTagComponent, StatusTranslatePipe]
 })
 export class SharedModule {}

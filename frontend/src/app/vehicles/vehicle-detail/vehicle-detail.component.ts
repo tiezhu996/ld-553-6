@@ -20,7 +20,7 @@ export class VehicleDetailComponent implements OnInit {
     this.api.vehicleMaintenance(id).subscribe(records => this.records = records);
   }
   onMaintenance(): void {
-    if (!this.vehicle) return;
+    if (!this.vehicle || this.vehicle.status !== VehicleStatus.OPERATING) return;
     this.api.markVehicleMaintenance(this.vehicle.id).subscribe(v => {
       this.vehicle = v;
       const id = Number(this.route.snapshot.paramMap.get('id'));
