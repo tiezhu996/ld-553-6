@@ -1,0 +1,1 @@
+-- Django seed data is created by `python manage.py seed_demo` after migrations.

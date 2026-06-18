@@ -1,0 +1,68 @@
+name: ldtransit
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-ldtransit}_postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-transithub}
+      POSTGRES_USER: ${POSTGRES_USER:-transithub}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-transithub}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-transithub} -d ${POSTGRES_DB:-transithub}"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  redis:
+    image: redis:7-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-ldtransit}_redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+  backend:
+    build: ./backend
+    container_name: ${COMPOSE_PROJECT_NAME:-ldtransit}_backend
+    environment:
+      DEBUG: ${DEBUG:-0}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-change-me}
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: ${POSTGRES_DB:-transithub}
+      POSTGRES_USER: ${POSTGRES_USER:-transithub}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-transithub}
+      REDIS_URL: redis://redis:6379/0
+      AMAP_API_KEY: ${AMAP_API_KEY:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "38503:38503"
+    healthcheck:
+      test: ["CMD-SHELL", "python - <<'PY'\nimport urllib.request\nurllib.request.urlopen('http://127.0.0.1:38503/health/', timeout=2)\nPY"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        AMAP_API_KEY: ${AMAP_API_KEY:-}
+    container_name: ${COMPOSE_PROJECT_NAME:-ldtransit}_frontend
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "38403:38403"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:38403/health >/dev/null"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+volumes:
+  postgres_data:

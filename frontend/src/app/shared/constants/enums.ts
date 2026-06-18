@@ -1,0 +1,7 @@
+export enum VehicleStatus { OPERATING = 'OPERATING', MAINTENANCE = 'MAINTENANCE', DISABLED = 'DISABLED', PENDING = 'PENDING' }
+export enum VehicleType { BUS = 'BUS', TAXI = 'TAXI', RIDE_HAILING = 'RIDE_HAILING', LOGISTICS = 'LOGISTICS' }
+export enum PileType { FAST = 'FAST', SLOW = 'SLOW' }
+export enum PileStatus { IDLE = 'IDLE', CHARGING = 'CHARGING', FAULTY = 'FAULTY', MAINTENANCE = 'MAINTENANCE' }
+export enum OrderStatus { PENDING = 'PENDING', ACCEPTED = 'ACCEPTED', IN_PROGRESS = 'IN_PROGRESS', COMPLETED = 'COMPLETED', CANCELLED = 'CANCELLED' }
+export enum PaymentStatus { UNPAID = 'UNPAID', PAID = 'PAID', REFUNDED = 'REFUNDED' }
+export type UserRole = 'DRIVER' | 'OPERATOR' | 'ADMIN';

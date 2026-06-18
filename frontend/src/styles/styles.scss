@@ -1,0 +1,16 @@
+@use './variables' as *;
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+html, body { height: 100%; margin: 0; color: $ink; background: $paper; font-family: "Aptos", "PingFang SC", sans-serif; }
+button, input, select { font: inherit; }
+.page { padding: 24px; }
+.toolbar { display: flex; gap: 12px; align-items: center; margin-bottom: 18px; flex-wrap: wrap; }
+.panel { background: $panel; border: 1px solid $line; border-radius: 8px; padding: 18px; }
+.table-wrap { overflow: auto; border: 1px solid $line; border-radius: 8px; background: $panel; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 13px 14px; border-bottom: 1px solid $line; text-align: left; white-space: nowrap; }
+th { color: $muted; font-size: 12px; font-weight: 700; }
+.grid { display: grid; gap: 16px; }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.split { display: grid; grid-template-columns: 3fr 2fr; gap: 18px; min-height: 72vh; }
+@media (max-width: 900px) { .grid-4, .split { grid-template-columns: 1fr; } .page { padding: 14px; } }
