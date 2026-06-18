@@ -16,11 +16,15 @@ export class ApiService {
   vehicleMaintenance(id: number): Observable<MaintenanceRecord[]> { return this.http.get<MaintenanceRecord[]>(`${environment.apiBaseUrl}/vehicles/${id}/maintenance-records/`); }
   createVehicle(data: Partial<Vehicle>): Observable<Vehicle> { return this.http.post<Vehicle>(`${environment.apiBaseUrl}/vehicles/`, data); }
   patchVehicle(id: number, data: Partial<Vehicle>): Observable<Vehicle> { return this.http.patch<Vehicle>(`${environment.apiBaseUrl}/vehicles/${id}/`, data); }
+  markVehicleMaintenance(id: number): Observable<Vehicle> { return this.http.patch<Vehicle>(`${environment.apiBaseUrl}/vehicles/${id}/maintenance/`, {}); }
   listPiles(filters: Record<string, string> = {}): Observable<ChargingPile[]> { return this.http.get<ChargingPile[]>(`${environment.apiBaseUrl}/charging-piles/`, { params: new HttpParams({ fromObject: filters }) }); }
   pileLocations(): Observable<ChargingPile[]> { return this.http.get<ChargingPile[]>(`${environment.apiBaseUrl}/charging-piles/locations/`); }
   patchPileStatus(id: number, status: string): Observable<ChargingPile> { return this.http.patch<ChargingPile>(`${environment.apiBaseUrl}/charging-piles/${id}/status/`, { status }); }
   listOrders(filters: Record<string, string> = {}): Observable<TripOrder[]> { return this.http.get<TripOrder[]>(`${environment.apiBaseUrl}/orders/`, { params: new HttpParams({ fromObject: filters }) }); }
   patchOrderStatus(id: number, status: string): Observable<TripOrder> { return this.http.patch<TripOrder>(`${environment.apiBaseUrl}/orders/${id}/status/`, { status }); }
+  listMaintenanceRecords(filters: Record<string, string> = {}): Observable<MaintenanceRecord[]> { return this.http.get<MaintenanceRecord[]>(`${environment.apiBaseUrl}/maintenance-records/`, { params: new HttpParams({ fromObject: filters }) }); }
+  createMaintenanceRecord(data: Partial<MaintenanceRecord>): Observable<MaintenanceRecord> { return this.http.post<MaintenanceRecord>(`${environment.apiBaseUrl}/maintenance-records/`, data); }
+  completeMaintenanceRecord(id: number): Observable<MaintenanceRecord> { return this.http.patch<MaintenanceRecord>(`${environment.apiBaseUrl}/maintenance-records/${id}/complete/`, {}); }
   dashboardOverview(): Observable<DashboardOverview> { return this.http.get<DashboardOverview>(`${environment.apiBaseUrl}/dashboard/overview/`); }
   orderTrend(): Observable<Array<{ day: string; count: number }>> { return this.http.get<Array<{ day: string; count: number }>>(`${environment.apiBaseUrl}/dashboard/order-trend/`); }
   revenueStats(): Observable<any> { return this.http.get(`${environment.apiBaseUrl}/dashboard/revenue-stats/`); }

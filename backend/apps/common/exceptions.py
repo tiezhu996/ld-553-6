@@ -32,6 +32,16 @@ def error_payload(code: int, message: str, detail: str = "") -> dict:
 
 
 def drf_exception_handler(exc, context):
+    if isinstance(exc, BusinessException):
+        response = exception_handler(None, context)
+        if response is None:
+            from rest_framework.response import Response
+            response = Response(error_payload(exc.status_code, exc.message, str(exc)), status=exc.status_code)
+        else:
+            response.status_code = exc.status_code
+            response.data = error_payload(exc.status_code, exc.message, str(exc))
+        logger.warning("Business exception: %s", exc)
+        return response
     response = exception_handler(exc, context)
     if response is None:
         return None

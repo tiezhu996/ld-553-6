@@ -1,12 +1,18 @@
 from django.utils import timezone
 
 from apps.common.constants.enums import VehicleStatus
+from apps.common.exceptions import BusinessException
 from apps.maintenance.models import MaintenanceRecord
+from apps.vehicles.services import validate_vehicle_for_maintenance
 
 
 class MaintenanceService:
     @staticmethod
     def create_record(serializer) -> MaintenanceRecord:
+        vehicle = serializer.validated_data.get("vehicle")
+        if vehicle is None:
+            raise BusinessException("必须指定车辆")
+        validate_vehicle_for_maintenance(vehicle)
         record = serializer.save(status=MaintenanceRecord.Status.IN_PROGRESS)
         record.vehicle.status = VehicleStatus.MAINTENANCE
         record.vehicle.save(update_fields=["status", "updated_at"])

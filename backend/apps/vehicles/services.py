@@ -3,6 +3,11 @@ from apps.common.exceptions import BusinessException
 from apps.vehicles.models import Vehicle
 
 
+def validate_vehicle_for_maintenance(vehicle: Vehicle) -> None:
+    if vehicle.status != VehicleStatus.OPERATING:
+        raise BusinessException("只有运营中车辆可以进入维修")
+
+
 class VehicleService:
     @staticmethod
     def approve(vehicle: Vehicle) -> Vehicle:
@@ -20,8 +25,7 @@ class VehicleService:
 
     @staticmethod
     def mark_maintenance(vehicle: Vehicle) -> Vehicle:
-        if vehicle.status != VehicleStatus.OPERATING:
-            raise BusinessException("只有运营中车辆可以进入维修")
+        validate_vehicle_for_maintenance(vehicle)
         vehicle.status = VehicleStatus.MAINTENANCE
         vehicle.save(update_fields=["status", "updated_at"])
         return vehicle
